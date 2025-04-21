@@ -1,8 +1,7 @@
-School Management System (Node.js API)
+# School Management API
 
 Overview
-This document outlines the suggested structure, architecture, and required NPM packages to build a
-School Management System API using Node.js and MongoDB.
+A backend system built with Node.js, Express, and MongoDB for managing students, teachers, courses, and enrollments.
 
 Folder Structure
 school-management-api/
