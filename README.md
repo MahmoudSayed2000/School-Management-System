@@ -51,3 +51,36 @@ Setup Steps
 9. Use multer for file handling
 10. Test with Postman
 11. Deploy on Render, Cyclic, or Railway
+
+User {
+  name,
+  email,
+  password,
+  role: 'student' | 'teacher' | 'admin',
+  bio,
+  profilePhoto
+}
+Course {
+  title,
+  description,
+  tags: [],
+  teacher: ObjectId (ref: 'User'),
+  createdAt,
+  coverImage
+}
+CourseAttachment {
+  course: ObjectId (ref: 'Course'),
+  title,
+  fileUrl,
+  uploadedAt
+}
+Enrollment {
+  student: ObjectId (ref: 'User'),
+  course: ObjectId (ref: 'Course'),
+  status: 'enrolled' | 'completed',
+  enrolledAt
+}
+Role	    Can Do
+Admin	    Manage everything
+Teacher	    Create/edit/delete own courses, view students
+Student	    Enroll, view course content
