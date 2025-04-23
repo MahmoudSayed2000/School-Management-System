@@ -1,11 +1,13 @@
+const express = require('express');
+const cors = require('cors');
+const app = express();
 
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-require('dotenv').config();
-const mongoose = require('mongoose');
+// Routes
+// app.use('/api/auth', require('./routes/authRoutes'));
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('✅ MongoDB Atlas connected'))
-.catch(err => console.error('❌ MongoDB connection failed:', err));
+// Export the app
+module.exports = app;
