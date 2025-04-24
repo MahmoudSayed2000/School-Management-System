@@ -7,6 +7,7 @@ const CourseSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+        trim: true
     },
     description: {
         type: String,
@@ -16,14 +17,10 @@ const CourseSchema = new mongoose.Schema({
         type: [String],
         required: true,
     },
-    teacher : { 
+    teacherId : { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User' 
-    },
-
-    createdAt : {
-        type : Date,
-        required : true
+        ref: 'User',
+        required: true
     },
     coverImg : {
         type : String,

@@ -1,9 +1,17 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require("express-validator");
+const { registerSchema, loginSchema } = require("../validators/authValidator");
 
 exports.register = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    const { error } = registerSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
     const { name, email, password, role } = req.body;
 
     // Check if user already exists
@@ -24,6 +32,15 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+
+    // Validate request body using express-validator
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    
+   // Validate request body using Joi
+    const { error } = loginSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.details[0].message });
+
     const { email, password } = req.body;
 
     // Find user

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const CourseAttachmentSchema = new mongoose.Schema({
-    course: {
+    courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true,
@@ -10,15 +10,14 @@ const CourseAttachmentSchema = new mongoose.Schema({
     file: {
         type: String,
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    }, 
+    public_id: String, // for Cloudinary delete
+    filetype: {
+        type: String,
+        enum: ['pdf', 'image', 'doc', 'video', 'other'],
+        default: 'other'
+      }
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('CourseAttachment', CourseAttachmentSchema);

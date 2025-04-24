@@ -2,12 +2,12 @@
 const mongoose = require('mongoose');
 
 const EnrollmentSchema = new mongoose.Schema({
-    course: {
+    courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true,
     },
-    student: {
+    studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
@@ -16,16 +16,9 @@ const EnrollmentSchema = new mongoose.Schema({
         type: String,
         enum: ['enrolled', 'completed', 'dropped'],
         default: 'enrolled',
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    }
 }, { timestamps: true });
 
+EnrollmentSchema.index({ courseId: 1, studentId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Enrollment', EnrollmentSchema);

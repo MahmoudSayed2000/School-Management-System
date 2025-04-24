@@ -84,3 +84,12 @@ Role	    Can Do
 Admin	    Manage everything
 Teacher	    Create/edit/delete own courses, view students
 Student	    Enroll, view course content
+
+------------------------- Things to Do (Future Work) -------------------------
+
+1 - Add Payment using stripe or paypal
+2 - make enrollment pending in enum then admin accept the pending after payment
+3 - upload profile photo of user
+4 - Filtering by price range
+5 - Sorting (e.g., newest first)
+6 - Pagination (skip, limit)
