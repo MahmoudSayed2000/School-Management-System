@@ -1,29 +1,44 @@
-const cloudinary = require('../utils/cloudinary');
+// controllers/CourseAttachmentController.js
 const CourseAttachment = require('../models/CourseAttachment');
+const cloudinary = require('../utils/cloudinary'); // Assuming you have a cloudinary.js
+const fs = require('fs');
 
-exports.uploadAttachment = async (req, res) => {
+// Define Joi schema for validation
+const Joi = require('joi');
+const schema = Joi.object({
+  courseId: Joi.string().required(),
+});
+
+uploadAttachment = async (req, res) => {
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).json({ message: error.details[0].message });
+
+  if (!req.file) return res.status(400).json({ message: 'File is required' });
+
   try {
-    const file = req.file;
-    if (!file) return res.status(400).json({ message: 'No file uploaded' });
+    const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'courseAttachments',
+      allowed_formats: ['jpg', 'png', 'pdf', 'docx'],
+    });
 
-    const result = await cloudinary.uploader.upload_stream(
-      { resource_type: 'auto', folder: 'school/courses' },
-      async (error, result) => {
-        if (error) return res.status(500).json({ error });
+    fs.unlinkSync(req.file.path); // Optionally remove the local file
 
-        const attachment = await CourseAttachment.create({
-          courseId: req.body.courseId,
-          file: result.secure_url,
-          public_id: result.public_id,
-          filetype: file.mimetype.split('/')[1]
-        });
+    const filetype = req.file.mimetype.includes('image') ? 'image' : 'other';
 
-        res.status(201).json({ message: 'Uploaded', attachment });
-      }
-    );
+    const attachment = new CourseAttachment({
+      courseId: req.body.courseId,
+      file: cloudinaryResult.secure_url, // Cloudinary URL
+      public_id: cloudinaryResult.public_id, // Cloudinary public ID
+      filetype: filetype,
+    });
+    await attachment.save();
 
-    file.stream.pipe(result);
+    res.status(201).json({ message: 'Attachment uploaded successfully', attachment });
   } catch (err) {
-    res.status(500).json({ message: 'Upload failed', error: err.message });
+    res.status(500).json({ message: 'Something went wrong', error: err.message });
+    console.error(err)
   }
+};
+module.exports = {
+  uploadAttachment,
 };

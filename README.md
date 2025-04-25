@@ -1,91 +1,185 @@
-# School Management API
+📘 School Management System API – Documentation
+📌 Table of Contents
+Project Overview
 
-Overview
-A backend system built with Node.js, Express, and MongoDB for managing students, teachers, courses, and enrollments.
+Technologies Used
 
-Folder Structure
-school-management-api/
-|
-|-- config/ # Environment config, DB connection
-|-- controllers/ # Route logic
-|-- middlewares/ # Auth and validation middlewares
-|-- models/ # Mongoose models
-|-- routes/ # Express route definitions
-|-- services/ # Business logic
-|-- utils/ # Utility functions (e.g. upload)
-|-- uploads/ # Uploaded files (dev only)
-|-- .env # Environment variables
-|-- app.js # Express app setup
-|-- server.js # App entry point
+Project Structure
 
-Suggested Models
-1. User (Admin, Teacher, Student)
-2. Course
-3. Enrollment
-4. CourseAttachment
+Environment Setup
 
-Required NPM Packages
-Install the following packages:
-npm install express mongoose dotenv bcryptjs jsonwebtoken express-validator cors multer
-cloudinary
-For development:
-npm install --save-dev nodemon
+API Endpoints
 
-Architecture
-Architecture Style: MVC + Service Layer
-- Models: Handle data schemas
-- Controllers: Handle request/response logic
-- Services: Handle business logic
-- Routes: Define endpoints and link to controllers
-- Middlewares: For auth, error handling, validation
+Auth
 
-Setup Steps
-1. Initialize project: npm init -y
-2. Install required packages
-3. Setup `.env` file with MongoDB URL, JWT secret, etc.
-4. Connect MongoDB in config/db.js
-5. Define models in models/
-6. Create auth middleware (JWT)
-7. Build routes/controllers/services for each model
-8. Add cloudinary config for uploads
-9. Use multer for file handling
-10. Test with Postman
-11. Deploy on Render, Cyclic, or Railway
+User
 
-User {
-  name,
-  email,
-  password,
-  role: 'student' | 'teacher' | 'admin',
-  bio,
-  profilePhoto
-}
-Course {
-  title,
-  description,
-  tags: [],
-  teacher: ObjectId (ref: 'User'),
-  createdAt,
-  coverImage
-}
-CourseAttachment {
-  course: ObjectId (ref: 'Course'),
-  title,
-  fileUrl,
-  uploadedAt
-}
-Enrollment {
-  student: ObjectId (ref: 'User'),
-  course: ObjectId (ref: 'Course'),
-  status: 'enrolled' | 'completed',
-  enrolledAt
-}
-Role	    Can Do
-Admin	    Manage everything
-Teacher	    Create/edit/delete own courses, view students
-Student	    Enroll, view course content
+Course
 
-------------------------- Things to Do (Future Work) -------------------------
+Course Attachment
+
+Enrollment
+
+Validation
+
+Authentication & Authorization
+
+File Upload (Local & Cloudinary)
+
+Error Handling
+
+Deployment Instructions
+
+License & Authors
+
+1. 📖 Project Overview
+This backend API serves as a school management system where:
+
+Teachers can create and manage courses.
+
+Students can enroll in courses.
+
+Admins can manage users and data.
+
+Files can be uploaded either locally or to Cloudinary.
+
+Inspired by a blog platform like MaharahTech but adapted for school-related functionalities.
+
+2. 🛠️ Technologies Used
+Node.js & Express – server and routing
+
+MongoDB & Mongoose – database and models
+
+JWT – authentication
+
+Bcryptjs – password hashing
+
+dotenv – environment variables
+
+express-validator – route validation
+
+Joi – schema-based request validation
+
+Multer – file uploading
+
+Cloudinary – cloud-based file storage
+
+Nodemon – development auto-restart
+
+Cors – cross-origin access
+
+3. 📁 Project Structure
+bash
+Copy
+Edit
+/school-api
+│
+├── config/                # DB connection, cloudinary config
+├── controllers/           # Logic for routes
+├── middlewares/           # Auth, validators, error handling
+├── models/                # Mongoose models (User, Course, etc.)
+├── routes/                # Express routes
+├── uploads/               # Uploaded files (for local storage)
+├── utils/                 # Helpers (e.g., file upload)
+├── .env                   # Environment variables
+├── server.js              # Entry point
+4. ⚙️ Environment Setup
+.env File
+env
+Copy
+Edit
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/schoolDB
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=1d
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+5. 🔌 API Endpoints
+✅ Auth
+
+Method	Endpoint	Description
+POST	/api/auth/register	Register user
+POST	/api/auth/login	Login and get JWT
+👤 User
+
+Method	Endpoint	Access	Description
+GET	/api/users/	Admin	Get all users
+GET	/api/users/profile	User	Get my profile
+📚 Course
+
+Method	Endpoint	Access	Description
+GET	/api/courses/	Public	List all courses
+GET	/api/courses/:id	Public	View course
+POST	/api/courses/add-course	Teacher	Add new course
+PUT	/api/courses/edit-course/:id	Teacher	Edit course
+DELETE	/api/courses/delete-course/:id	Teacher	Delete course
+📎 Course Attachment
+
+Method	Endpoint	Access	Description
+POST	/api/attachments/upload	Teacher	Upload file to course
+📥 Enrollment
+
+Method	Endpoint	Access	Description
+POST	/api/enrollments/enroll	Student	Enroll in a course
+GET	/api/enrollments/my-courses	Student	View enrolled courses
+6. ✅ Validation
+express-validator: used for simple inline route validation (e.g. courses)
+
+Joi: used in separate schemas for more complex validation (e.g. registration)
+
+7. 🔐 Authentication & Authorization
+Uses JWT tokens stored in headers (Authorization: Bearer <token>)
+
+Roles: admin, teacher, student
+
+Middleware: auth, authorizeRoles(...)
+
+8. 📁 File Upload
+Local Storage (with Multer)
+Files uploaded to /uploads/
+
+Sample usage in utils/uploadLocal.js
+
+Cloudinary Storage
+Uses Cloudinary SDK
+
+Upload with:
+
+js
+Copy
+Edit
+cloudinary.uploader.upload(filePath, {
+  folder: 'school-attachments'
+});
+9. 🚨 Error Handling
+Custom middleware errorHandler.js
+
+Validations return 400 with error array
+
+JWT failures return 401 Unauthorized
+
+10. 🚀 Deployment Instructions
+bash
+Copy
+Edit
+# Clone the repo
+git clone https://github.com/your-username/school-api.git
+
+# Navigate to project
+cd school-api
+
+# Install packages
+npm install
+
+# Set your .env file
+
+# Run in dev mode
+npm run dev
+11. 📄 License & Authors
+Created by [Your Name & Partner]
+
+For Node.js Course Project (ITI/Your Institute)
 
 1 - Add Payment using stripe or paypal
 2 - make enrollment pending in enum then admin accept the pending after payment
