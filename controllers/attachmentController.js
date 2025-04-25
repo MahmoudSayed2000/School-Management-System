@@ -1,9 +1,7 @@
-// controllers/CourseAttachmentController.js
 const CourseAttachment = require('../models/CourseAttachment');
-const cloudinary = require('../utils/cloudinary'); // Assuming you have a cloudinary.js
+const cloudinary = require('../utils/cloudinary'); 
 const fs = require('fs');
 
-// Define Joi schema for validation
 const Joi = require('joi');
 const schema = Joi.object({
   courseId: Joi.string().required(),
