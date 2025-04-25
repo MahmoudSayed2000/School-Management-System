@@ -1,17 +1,17 @@
-// const expressValidator = require('express-validator');
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-// const bycrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-// const multer = require('multer');
-// const joi = require('joi');
+
+require('dotenv').config({
+  path: process.env.NODE_ENV !== 'production' ? '.env.local' : '.env'
+});
+
+console.log('Current NODE_ENV:', process.env.NODE_ENV);
+console.log('Cloud Name:', process.env.CLOUD_NAME);
+console.log('API Key:', process.env.CLOUD_API_KEY);
 
 const app = require('./app');
-const dotenv = require('dotenv');
 const connectDB = require('./config/DB');
 
 // Load env variables
-dotenv.config();
+
 
 // Connect to MongoDB
 connectDB();

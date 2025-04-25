@@ -7,13 +7,13 @@ A backend RESTful API for managing a school system where students can enroll in 
 
 - Node.js & Express – server and routing
 - MongoDB & Mongoose – database and models
-- JWT for authentication 
-- Bcrypt.js for password hashing
-- dotenv for environment config
-- express-validator & Joi for validation
-- Multer & Cloudinary for file uploads
-- Nodemon for development
-- CORS for cross-origin resource sharing
+- JWT – authentication
+- Bcrypt.js – password hashing
+- dotenv – environment variables
+- express-validator & Joi  – Validation
+- Multer & Cloudinary - file uploads & cloud-based file storage
+- Nodemon – development auto-restart
+- CORS - cross-origin resource sharing and access
 
 ## 📁 Project Structure
 
@@ -34,7 +34,7 @@ A backend RESTful API for managing a school system where students can enroll in 
 
 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/school-api.git
+git clone https://github.com/MahmoudSayed2000/School-Management-System.git
 cd school-api
 ```
 
@@ -126,6 +126,6 @@ npm run dev
 Created by Mahmoud Mohamed Sayed & Osama Mohamed Ali
 For the Node.js Backend Course Final Project.
 
-## 📄 License
+<!-- ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. -->
